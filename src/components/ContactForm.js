@@ -28,7 +28,7 @@ const ContactForm = () => {
   return (
     <div>
       {
-        data.length === 0 ?
+        validated ?
 
       <Form noValidate validated={ validated } onSubmit={ handleSubmit }>
         <Row>
