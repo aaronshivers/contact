@@ -26,91 +26,85 @@ const ContactForm = () => {
   useEffect(() => console.log(data.length > 0))
 
   return (
-    <div>
-      {
-        true ?
+    <Form noValidate validated={ validated } onSubmit={ handleSubmit }>
+      <Row>
+        <Col sm={ 6 }>
+          {/* Name */}
+          <Form.Group controlId="name">
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="Name..."
+              value={ name }
+              onChange={ e => setName(e.target.value) }
+              required
+            />
+          <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
+          </Form.Group>
+        </Col>
 
-      <Form noValidate validated={ validated } onSubmit={ handleSubmit }>
-        <Row>
-          <Col sm={ 6 }>
-            {/* Name */}
-            <Form.Group controlId="name">
-              <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Name..."
-                value={ name }
-                onChange={ e => setName(e.target.value) }
-                required
-              />
-            <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
+        <Col sm={ 6 }>
+          {/* Email */}
+          <Form.Group controlId="email">
+            <Form.Control
+              size="lg"
+              type="email"
+              placeholder="Email..."
+              value={ email }
+              onChange={ e => setEmail(e.target.value) }
+              required
+            />
+          <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
 
-          <Col sm={ 6 }>
-            {/* Email */}
-            <Form.Group controlId="email">
-              <Form.Control
-                size="lg"
-                type="email"
-                placeholder="Email..."
-                value={ email }
-                onChange={ e => setEmail(e.target.value) }
-                required
-              />
-            <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
-
-        <Row>
-          <Col>
-            {/* Subject */}
-            <Form.Group controlId="subject">
-              <Form.Control
-                size="lg"
-                type="text"
-                placeholder="Subject..."
-                value={ subject }
-                onChange={ e => setSubject(e.target.value) }
-                required
-              />
-            <Form.Control.Feedback type="invalid">Please enter the subject.</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
+      <Row>
+        <Col>
+          {/* Subject */}
+          <Form.Group controlId="subject">
+            <Form.Control
+              size="lg"
+              type="text"
+              placeholder="Subject..."
+              value={ subject }
+              onChange={ e => setSubject(e.target.value) }
+              required
+            />
+          <Form.Control.Feedback type="invalid">Please enter the subject.</Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
 
 
-        <Row>
-          <Col>
-            {/* Message */}
-            <Form.Group controlId="message">
-              <Form.Control
-                size="lg"
-                as="textarea"
-                rows="3"
-                placeholder="Message..."
-                value={ message }
-                onChange={ e => setMessage(e.target.value) }
-                required
-              />
-            <Form.Control.Feedback type="invalid">Please enter a message.</Form.Control.Feedback>
-            </Form.Group>
-          </Col>
-        </Row>
+      <Row>
+        <Col>
+          {/* Message */}
+          <Form.Group controlId="message">
+            <Form.Control
+              size="lg"
+              as="textarea"
+              rows="3"
+              placeholder="Message..."
+              value={ message }
+              onChange={ e => setMessage(e.target.value) }
+              required
+            />
+          <Form.Control.Feedback type="invalid">Please enter a message.</Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+      </Row>
 
-        <Row>
-          <Col xs={ 3 }>
-            {/* Button */}
-            <Button size="lg" variant="primary" type="submit">
-              Submit
-            </Button>
-          </Col>
-        </Row>
+      <Row>
+        <Col xs={ 3 }>
+          {/* Button */}
+          <Button size="lg" variant="primary" type="submit">
+            Submit
+          </Button>
+        </Col>
+      </Row>
 
-      </Form> : <SuccessSplash />
-    }
-    </div>
+    </Form>
   )
 }
 
