@@ -3,14 +3,21 @@ import { Form, Row, Col, Button } from 'react-bootstrap'
 
 const ContactForm = () => {
   const [ validated, setValidated ] = useState(false)
+  const [ data, setData ] = useState([])
+  const [ name, setName ] = useState('')
+  const [ email, setEmail ] = useState('')
+  const [ subject, setSubject ] = useState('')
+  const [ message, setMessage ] = useState('')
 
   const handleSubmit = event => {
+    event.preventDefault()
     const form = event.currentTarget
 
     if (form.checkValidity() === false) {
-      event.preventDefault()
       event.stopPropagation()
     }
+
+    setData([{ name, email, subject, message }])
 
     setValidated(true)
   }
@@ -25,6 +32,8 @@ const ContactForm = () => {
               size="lg"
               type="text"
               placeholder="Name..."
+              value={ name }
+              onChange={ e => setName(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
@@ -38,6 +47,8 @@ const ContactForm = () => {
               size="lg"
               type="email"
               placeholder="Email..."
+              value={ email }
+              onChange={ e => setEmail(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
@@ -53,6 +64,8 @@ const ContactForm = () => {
               size="lg"
               type="text"
               placeholder="Subject..."
+              value={ subject }
+              onChange={ e => setSubject(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter the subject.</Form.Control.Feedback>
@@ -70,6 +83,8 @@ const ContactForm = () => {
               as="textarea"
               rows="3"
               placeholder="Message..."
+              value={ message }
+              onChange={ e => setMessage(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter a message.</Form.Control.Feedback>
