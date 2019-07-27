@@ -7,7 +7,7 @@ import { startAddMessage } from '../actions/messages'
 const ContactForm = () => {
   const [ validated, setValidated ] = useState(false)
   const [ message, setMessage ] = useState([])
-  const [ name, setName ] = useState('')
+  const [ username, setUsername ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ title, setTitle ] = useState('')
   const [ body, setBody ] = useState('')
@@ -22,27 +22,37 @@ const ContactForm = () => {
 
     setValidated(true)
 
-    if (validated) {
-      setMessage([{ name, email, title, body }])
-      startAddMessage(message)
-      console.log(message)
+    const regex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+
+    if (
+      username.length !== 0 &&
+      email.length !== 0 &&
+      email.match(regex) &&
+      title.length !== 0 &&
+      body.length !== 0
+    ) {
+      setMessage([{ username, email, title, body }])
     }
   }
 
-  useEffect(() => console.log(message.length > 0))
+  useEffect(() => {
+    if (message.length > 0) {
+      startAddMessage(message)
+    }
+  }, [message])
 
   return (
     <Form noValidate validated={ validated } onSubmit={ handleSubmit }>
       <Row>
         <Col sm={ 6 }>
           {/* Name */}
-          <Form.Group controlId="name">
+          <Form.Group controlId="username">
             <Form.Control
               size="lg"
               type="text"
               placeholder="Name..."
-              value={ name }
-              onChange={ e => setName(e.target.value) }
+              value={ username }
+              onChange={ e => setUsername(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
@@ -81,7 +91,6 @@ const ContactForm = () => {
           </Form.Group>
         </Col>
       </Row>
-
 
       <Row>
         <Col>
