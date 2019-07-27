@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
+// import { Link } from 'react-router-dom'
 import { Form, Row, Col, Button } from 'react-bootstrap'
 import SuccessSplash from './SuccessSplash'
+import { startAddMessage } from '../actions/messages'
 
 const ContactForm = () => {
   const [ validated, setValidated ] = useState(false)
-  const [ data, setData ] = useState([])
+  const [ message, setMessage ] = useState([])
   const [ name, setName ] = useState('')
   const [ email, setEmail ] = useState('')
-  const [ subject, setSubject ] = useState('')
-  const [ message, setMessage ] = useState('')
+  const [ title, setTitle ] = useState('')
+  const [ body, setBody ] = useState('')
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -18,12 +20,16 @@ const ContactForm = () => {
       event.stopPropagation()
     }
 
-    setData([{ name, email, subject, message }])
-
     setValidated(true)
+
+    if (validated) {
+      setMessage([{ name, email, title, body }])
+      startAddMessage(message)
+      console.log(message)
+    }
   }
 
-  useEffect(() => console.log(data.length > 0))
+  useEffect(() => console.log(message.length > 0))
 
   return (
     <Form noValidate validated={ validated } onSubmit={ handleSubmit }>
@@ -61,17 +67,17 @@ const ContactForm = () => {
 
       <Row>
         <Col>
-          {/* Subject */}
-          <Form.Group controlId="subject">
+          {/* Title */}
+          <Form.Group controlId="title">
             <Form.Control
               size="lg"
               type="text"
-              placeholder="Subject..."
-              value={ subject }
-              onChange={ e => setSubject(e.target.value) }
+              placeholder="Title..."
+              value={ title }
+              onChange={ e => setTitle(e.target.value) }
               required
             />
-          <Form.Control.Feedback type="invalid">Please enter the subject.</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please enter the title.</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Row>
@@ -79,18 +85,18 @@ const ContactForm = () => {
 
       <Row>
         <Col>
-          {/* Message */}
-          <Form.Group controlId="message">
+          {/* Body */}
+          <Form.Group controlId="body">
             <Form.Control
               size="lg"
               as="textarea"
               rows="3"
-              placeholder="Message..."
-              value={ message }
-              onChange={ e => setMessage(e.target.value) }
+              placeholder="Body..."
+              value={ body }
+              onChange={ e => setBody(e.target.value) }
               required
             />
-          <Form.Control.Feedback type="invalid">Please enter a message.</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">Please enter a body.</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Row>
