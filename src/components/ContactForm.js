@@ -6,11 +6,38 @@ import { startAddMessage } from '../actions/messages'
 
 const ContactForm = () => {
   const [ validated, setValidated ] = useState(false)
+  const [ completed, setCompleted ] = useState(false)
   const [ message, setMessage ] = useState([])
-  const [ name, setName ] = useState('')
-  const [ email, setEmail ] = useState('')
-  const [ title, setTitle ] = useState('')
-  const [ body, setBody ] = useState('')
+  // const [ name, setName ] = useState('')
+  // const [ email, setEmail ] = useState('')
+  // const [ title, setTitle ] = useState('')
+  // const [ body, setBody ] = useState('')
+
+  // const handleNameChange = e => {
+  //   console.log(e.target)
+  //   if (typeof e.target.elements.name.value !== 'string') return
+  //   setName(e.target.elements.name.value.replace(/[^\w]/g, ''))
+  // }
+
+  // const handleEmailChange = e => {
+  //   if (typeof e.target.elements.email.value !== 'string') return
+  //   const validEmail = e.target.elements.email.value
+  //   setName(validEmail.replace(/[^\w]/g, ''))
+  // }
+
+  const validateData = (data) => {
+    let isValidData = true
+
+    for (const prop of data) {
+      // console.log(prop.id, prop.value)
+
+      if (typeof prop.value !== 'string') isValidData = false
+      
+      // if (prop.value.length === 0) isValidData = false
+    }
+
+    return isValidData
+  }
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -22,27 +49,62 @@ const ContactForm = () => {
 
     setValidated(true)
 
-    if (validated) {
-      setMessage([{ name, email, title, body }])
-      startAddMessage(message)
-      console.log(message)
-    }
+    const dataValidated = validateData(event.target.elements)
+
+    // const { elements: { name } } = event.target
+    // const { id } = event.target.elements
+
+    const data = [{
+      username: username.value,
+      email: email.value,
+      title: title.value,
+      body: body.value
+    }]
+
+    if (dataValidated) console.log(data)
+
+    if (dataValidated) setMessage(data)
+
+    
   }
 
-  useEffect(() => console.log(message.length > 0))
+  // useEffect(() => {
+  //   console.log('this should only run once')
+  // }, [])
+
+  // useEffect(() => {
+    
+  //   console.log('useEffect ran')
+
+  //   if (name !== '' && email !== '' && title !== '' && body !== '') {
+  //     console.log('no emtpy fields')
+  //     setMessage([{ name, email, title, body }])
+  //   }
+
+  // }, [name, email, title, body])
+
+  // useEffect(() => {
+  //   console.log('validated', validated)
+  // }, [validated])
+
+  useEffect(() => {
+    if (message[0]) {
+      startAddMessage(message)
+      console.log('message added to db', message)
+    }
+  }, [message])
 
   return (
     <Form noValidate validated={ validated } onSubmit={ handleSubmit }>
       <Row>
         <Col sm={ 6 }>
           {/* Name */}
-          <Form.Group controlId="name">
+          <Form.Group controlId="username">
             <Form.Control
+              name="username"
               size="lg"
               type="text"
               placeholder="Name..."
-              value={ name }
-              onChange={ e => setName(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
@@ -53,11 +115,10 @@ const ContactForm = () => {
           {/* Email */}
           <Form.Group controlId="email">
             <Form.Control
+              name="email"
               size="lg"
               type="email"
               placeholder="Email..."
-              value={ email }
-              onChange={ e => setEmail(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
@@ -73,15 +134,12 @@ const ContactForm = () => {
               size="lg"
               type="text"
               placeholder="Title..."
-              value={ title }
-              onChange={ e => setTitle(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter the title.</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Row>
-
 
       <Row>
         <Col>
@@ -92,8 +150,6 @@ const ContactForm = () => {
               as="textarea"
               rows="3"
               placeholder="Body..."
-              value={ body }
-              onChange={ e => setBody(e.target.value) }
               required
             />
           <Form.Control.Feedback type="invalid">Please enter a body.</Form.Control.Feedback>
