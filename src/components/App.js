@@ -5,7 +5,7 @@ import ContactForm from './ContactForm'
 const App = () => (
   <div>
     <Container className="mb-3" >
-      <h1 className="display-3 text-center">contact</h1>
+      <h1 className="display-3 text-center">Contact</h1>
       <ContactForm />
     </Container>
   </div>

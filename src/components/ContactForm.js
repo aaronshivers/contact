@@ -3,14 +3,48 @@ import React, { useState, useEffect } from 'react'
 import { Form, Row, Col, Button } from 'react-bootstrap'
 import SuccessSplash from './SuccessSplash'
 import { startAddMessage } from '../actions/messages'
+import { firebase, googleAuthProvider } from '../db/firebase'
+
+// const login = uid => ({
+//   type: 'LOGIN',
+//   uid
+// })
+
+const startLogin = () => () => {
+  console.log('startLogin')
+  return firebase
+    .auth()
+    .signInWithPopup(googleAuthProvider)
+}
 
 const ContactForm = () => {
+  const [ userID, setUserID ] = useState('')
   const [ validated, setValidated ] = useState(false)
   const [ message, setMessage ] = useState([])
   const [ username, setUsername ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ title, setTitle ] = useState('')
   const [ body, setBody ] = useState('')
+
+  const handleLogin = event => {
+    console.log('handleLogin')
+    const blah = startLogin()
+    console.log(blah)
+    // setLoggedIn(true)
+  }
+
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      console.log('setLoggedIn')
+      setLoggedIn(user.id)
+    } else {
+      console.log('onAuthStateChanged failed')
+    }
+  })
+
+  useEffect(() => {
+    console.log('userID', userID)
+  }, [userID])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -111,6 +145,13 @@ const ContactForm = () => {
       </Row>
 
       <Row>
+        <Col xs={ 3 }>
+          {/* Button */}
+          <Button size="lg" variant="secondary" type="button" onClick={ handleLogin }>
+            Login
+          </Button>
+        </Col>
+
         <Col xs={ 3 }>
           {/* Button */}
           <Button size="lg" variant="primary" type="submit">
